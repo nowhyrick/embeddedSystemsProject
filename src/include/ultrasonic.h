@@ -22,6 +22,9 @@ another individual is also a violation of the honor code.
 
 namespace Ultrasonic
 {
+    #define trigger 7 // Outputting on digital pin 7
+    #define echo 0 // Echo on PB0 to use ICP1
+
     /**
     * Initializes the ultrasonic sensor
     * 
@@ -37,7 +40,7 @@ namespace Ultrasonic
     /**
      * Reads the timing from the Timer 1 input capture unit and returns it
      */
-    int readTiming();
+    double readTiming();
 }
 
 #endif

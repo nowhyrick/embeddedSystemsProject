@@ -25,37 +25,23 @@ void ServoUnit::initServo()
 {
     Serial.println("Initializing servo unit");
 
-    TCCR2A = counter2MaskA; // Set to phase-correct PWM 
+    TCCR2A = counter2MaskA; // Set to fast pwm
     TCCR2B = counter2MaskB; // Set output compare and prescalar of 1024
     OCR2A = 255; // Top of timer 2
-    OCR2B = 8; // Controls direction of servo
     TCNT2 = 0; // Clear timer
-    DDRD |= (1 << PD3); // OCR2B set to output
+    DDRD |= ddrdMask; // OCR2B set to output
 
     Serial.println("Initializing startup sequence");
-    // Run initialize sequence: left -> center -> right
-    turnLeft(); // Left
-    turnRight(); // Center
     Serial.println("Done");
     Serial.println("Servo initialization complete");
 }
 
 /**
- * Rotates the servo left by 90 degrees
+ * Turns the servo depending on the value to enter into the
+ * OCR2B register
  */
-void ServoUnit::turnLeft()
+void ServoUnit::turn(int ocr2bValue)
 {
-    Serial.println("Turning Left");
-    OCR2B = 7;
-    _delay_ms(1000);
-}
-
-/**
- * Rotates the servo right by 90 degrees
- */
-void ServoUnit::turnRight()
-{
-    Serial.println("Turning Right");
-    OCR2B = 35;
+    OCR2B = ocr2bValue;
     _delay_ms(1000);
 }

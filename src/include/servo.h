@@ -37,6 +37,12 @@ namespace ServoUnit
         (1 << CS22)
     };
 
+    // Sets OCR2B to output
+    const byte ddrdMask =
+    {
+        (1 << PD3)
+    };
+
     /**
     * Function to initialize servo
     * 
@@ -45,14 +51,10 @@ namespace ServoUnit
     void initServo();
 
     /**
-     * Rotates the servo left by 'degrees'
+     * Turns the servo depending on the value to enter into the
+     * OCR2B register
      */
-    void turnLeft();
-
-    /**
-     * Rotates the servo right by 'degrees'
-     */
-    void turnRight();
+    void turn(int ocr2bValue);
 }
 
 #endif
