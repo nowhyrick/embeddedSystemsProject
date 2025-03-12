@@ -20,6 +20,8 @@ another individual is also a violation of the honor code.
 
 // Clears out the timer registers
 void clearRegisters();
+// Sends a pulse out over the ultrasonic sensor
+void sendPulse();
 
 /**
  * Initializes the ultrasonic sensor
@@ -32,9 +34,9 @@ void Ultrasonic::initUltraSonic()
     PORTD |= (1 << trigger); // Enable pull up resistor
     DDRB &= ~(1 << echo); // Set PB0 for input to track echo in ICP1
 
-    // CTC mode; ICR1 is top
-    TCCR1B = (1 << ICES1) | (1 << CS10); //| (1 << WGM12) | (1 << WGM13);
-    TCCR1A = 0; // Normal mode
+    // Mask definitions in header file
+    TCCR1A = tccr1aMask;
+    TCCR1B = tccr1bMask;
     TCCR1C = 0;
 
     clearRegisters();
@@ -45,7 +47,7 @@ void Ultrasonic::initUltraSonic()
 /**
  * Sends a pulse out over the ultrasonic sensor
  */
-void Ultrasonic::sendPulse()
+void sendPulse()
 {
     Serial.println("Sending pulse");
     // Set high
@@ -62,7 +64,8 @@ void Ultrasonic::sendPulse()
  */
 double Ultrasonic::readTiming()
 {
-    Ultrasonic::sendPulse();
+    // TODO: fix
+    sendPulse();
 
     double timing = pulseIn(8, HIGH);
     Serial.print("Timing: ");
